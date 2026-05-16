@@ -1,0 +1,43 @@
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.5);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.8);
+}
+.nav-item {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+.nav-item.active {
+    opacity: 1;
+    color: #c084fc;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.8);
+}
+
+#reader__dashboard_section_csr span {
+    color: white !important;
+}
+#reader button {
+    background: #9333ea !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    margin: 5px !important;
+    cursor: pointer;
+}
