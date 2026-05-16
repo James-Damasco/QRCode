@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>NeonScan | QR & Barcode Studio</title>
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        glass: "rgba(255, 255, 255, 0.1)"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-gradient-to-br from-indigo-900 via-purple-900 to-gray-900 min-h-screen text-white font-sans overflow-hidden">
+    <nav
+        class="fixed bottom-0 w-full md:w-24 md:h-screen md:left-0 bg-glass backdrop-blur-md border-t md:border-t-0 md:border-r border-white/20 z-50 transition-all">
+        <ul class="flex md:flex-col justify-around items-center h-16 md:h-full py-4">
+            <li class="nav-item active" data-target="home"><i
+                    class="fas fa-home text-xl md:text-2xl cursor-pointer hover:text-purple-400 transition"></i></li>
+            <li class="nav-item" data-target="scanner"><i
+                    class="fas fa-camera text-xl md:text-2xl cursor-pointer hover:text-purple-400 transition"></i></li>
+            <li class="nav-item" data-target="generator"><i
+                    class="fas fa-qrcode text-xl md:text-2xl cursor-pointer hover:text-purple-400 transition"></i></li>
+            <li class="nav-item" data-target="history"><i
+                    class="fas fa-history text-xl md:text-2xl cursor-pointer hover:text-purple-400 transition"></i></li>
+        </ul>
+    </nav>
+    <main class="mb-16 md:mb-0 md:ml-24 p-6 h-screen overflow-y-auto">
+        <section id="home" class="page-section active flex flex-col items-center justify-center h-full">
+            <h1
+                class="text-4xl md:text-6xl font-bold mb-4 tracking-wider text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-600">
+                NeonScan</h1>
+            <p class="text-gray-300 mb-8 text-center max-w-md">The ultimate modern tool for scanning ang generating QR
+                Codes and barcodes.</p>
+            <div class="flex gap-4">
+                <button onclick="switchTab('scanner')"
+                    class="px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-xl shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all font-semibold"><i
+                        class="fas fa-expand mr-2"></i>Scan Now</button>
+                <button onclick="switchTab('generator')"
+                    class="px-6 py-3 bg-glass border border-white/20 hover:bg-white/20 rounded-xl backdrop-blur-md transition-all font-semibold"><i
+                        class="fas fa-plus mr-2"></i>Create QR</button>
+            </div>
+        </section>
+        <section id="scanner" class="page-section hidden flex-col items-center max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-purple-300">Scanner</h2>
+            <div class="glass-card w-full p-4 rounded-2xl relative overflow-hidden">
+                <div id="reader" class="w-full rounded-xl overflow-hidden bg-black"></div>
+            </div>
+            <div id="scan-result" class="hiden w-full mt-6 glass-card p-6 rounded-2xl">
+                <h3 class="text-xl font-bold text-green-400 mb-2"><i class="fas fa-check-circle mr-2"></i>Scan
+                    Successful</h3>
+                <p id="result-text"
+                    class="text-gray-200 break-words mb-4 bg-black/30 p-3 rounded-lg border border-white/10"></p>
+                <div class="flex gap-3">
+                    <button id="copy-btn" class="flex-1 bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition"><i
+                            class="fas fa-copy mr-2"></i>Copy</button>
+                    <button id="action-btn"
+                        class="flex-1 bg-purple-600 hover:bg-purple-500 py-2 rounded-lg transition hidden"><i
+                            class="fas fa-external-link-alt mr-2"></i>Open</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="generator" class="page-section hidden flex-col max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-purple-300 text-center">QR Generator</h2>
+            <div class="grid md:grid-ols-2 gap-8">
+                <div class="glass-card p-6 rounded-2xl flex flex-col gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-300 mb-1">Content (URL, Text, etc.)</label>
+                        <textarea id="qr-input" rows="4"
+                            class="w-full bg-black/40 border border-white/20 rounded-lg p-3 text-white focus:outline-none focus:border-purple-500 transition"
+                            placeholder="Enter text to generate QR..."></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-1">Color</label>
+                            <input type="color" id="qr-color" value="#ffffff"
+                                class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-0">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-300 mb-1">Background</label>
+                            <input type="color" id="qr-bg" value="#000000"
+                                class="w-full h-10 rounded-lg cursor-pointer bg-transparent border-0">
+                        </div>
+                    </div>
+                    <button id="generate-btn"
+                        class="w-full mt-2 py-3 bg-purple-600 hover:bg-purple-500 rounded-lg transition font-bold">Generate
+                        QR</button>
+                </div>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center justify-center min-h-[300px]">
+                    <div id="qrcode-container" class="bg-white p-4 rounded-xl hidden"></div>
+                    <p id="qr-placeholder" class="text-gray-400">Preview will appear here</p>
+                    <button id="download-qr"
+                        class="mt-6 px-6 py-2 bg-glass border border-white/20 hover:bg-white/20 rounded-lg transition hidden"><i
+                            class="fas fa-download mr-2"></i>Download PNG</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="history" class="page-section hidden flex-col max-w-3xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-purple-300">Scan History</h2>
+                <button id="clear-history" class="text-red-400 hover:text-red-300 text-sm"><i
+                        class="fas fa-trash mr-1"></i>Clear All</button>
+            </div>
+            <div id="history-list" class="flex flex-col gap-3"></div>
+        </section>
+    </main>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="js/Generator.js"></script>
+    <script src="js/Scanner.js"></script>
+    <script src="js/Storage.js"></script>
+    <script src="js/Ui.js"></script>
+</body>
+
+</html>
